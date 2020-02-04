@@ -1,0 +1,55 @@
+{% load staticfiles %}
+<nav class="navbar navbar-expand-lg navbar-expand navbar-light bg-light ">
+    <div class="collapse navbar-collapse">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/shop.svg' %}" width="50" height="50" alt="">
+        </a>
+        <ul class="navbar-nav pl-0 mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'shop:index' %}">Home</a>
+            </li>
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:product_create' %}">Create product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:return_list' %}">Return list</a>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:purchase_list'%}">Purchase history</a>
+                    </li>
+
+                {% endif %}
+            {% endif %}
+
+        </ul>
+
+        <ul class="navbar-nav pl-0 pb-0 mt-2 mr-3" style="height: 50px">
+
+            {% if not user.is_authenticated %}
+
+                <p class="navbar-text mx-2" id="nav-text">Hello Guest</p>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'shop:user_create' %}">Register</a>
+                </li>
+                <p class="navbar-text mx-2"> or </p>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'shop:user_login' %}">Login</a>
+                </li>
+
+            {% else %}
+
+                <p class="nav-item nav-link">Hello {{ user }}</p>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'shop:user_logout' %}">Logout</a>
+                </li>
+
+            {% endif %}
+        </ul>
+    </div>
+</nav>

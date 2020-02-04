@@ -1,0 +1,32 @@
+{# for all tasks #}
+{#{% load crispy_forms_tags %}#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SHOP</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+{% include 'shop/page_item/navbar.html' %}
+
+<div class="row">
+    <div class="col-md-2 col-sm-2 col"></div>
+
+    {% block content %}
+    {% endblock content %}
+
+</div>
+{% block script %}
+    <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock script %}
+
+
+</body>
+</html>
