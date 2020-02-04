@@ -1,6 +1,6 @@
 from . import views
 
-app_name = 'authorization'
+app_name = 'identify'
 
 urlpatterns = [
 ]
