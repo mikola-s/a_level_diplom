@@ -1,0 +1,46 @@
+{% extends 'shop/page_item/base.html' %}
+{#{% load crispy_forms_tags %}#}
+{% load staticfiles %}
+
+{% block content %}
+
+    {% include 'shop/page_item/you_cash.html' %}
+
+    <div class="col-md-10 col-sm-10 col-12 col box">
+
+        {% if not user.is_authenticated %}
+            <div class="alert alert-danger text-center" role="alert">
+                <a href="{% url 'shop:user_login' %}" class="alert-link">login</a>
+                or
+                <a href="{% url 'shop:user_create' %}" class="alert-link">register</a>
+                to buy!
+            </div>
+        {% endif %}
+
+
+        {% include 'shop/page_item/messages.html' %}
+
+        <h2>Catalog of product</h2>
+
+
+
+        <div class="card-group mx-0 px-0">
+
+            {% for product in products %}
+
+                {% include 'shop/product/card.html' %}
+
+                {% if forloop.counter|divisibleby:"4" %}
+                    <div class="w-100"></div>
+                {% endif %}
+            {% empty %}
+                <p>no product</p>
+            {% endfor %}
+
+        </div>
+
+        {% include 'shop/page_item/paginator.html' %}
+
+    </div>
+
+{% endblock content %}
