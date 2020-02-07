@@ -6,6 +6,9 @@ class Status(models.Model):
     order = models.PositiveIntegerField()
     name = models.CharField(max_length=20)
 
+    def __str__(self):
+        return f"({self.order}) {self.name} "
+
 
 class TaskModel(models.Model):
     title = models.CharField(max_length=50)
