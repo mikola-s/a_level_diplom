@@ -12,7 +12,7 @@ class Status(models.Model):
 
 class TaskModel(models.Model):
     title = models.CharField(max_length=50)
-    creator = models.ForeignKey(to=User, on_delete=models.SET_DEFAULT, default=4, related_name='creator')
+    owner = models.ForeignKey(to=User, on_delete=models.SET_DEFAULT, default=1, related_name='owner')
     worker = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, blank=True, related_name='worker')
     status = models.ForeignKey(to=Status, on_delete=models.SET_DEFAULT, default=1)
     create_time = models.DateTimeField(auto_now_add=True)

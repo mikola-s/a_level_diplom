@@ -16,7 +16,10 @@
         {% include 'page_item/messages.html' %}
 
         <h2>Index</h2>
-
+        <form method="post">
+            {{ create_form }}
+            <input type="submit" value="create task">
+        </form>
     </div>
 
 {% endblock content %}
