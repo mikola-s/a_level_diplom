@@ -114,3 +114,12 @@ em {
     z-index: 200;
     /*transform-origin: 50% 100%;*/
 }
+
+.brd {
+    border: 2px solid green;
+}
+
+.brd-b {
+    border-bottom: 1px solid black;
+}
+

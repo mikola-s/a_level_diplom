@@ -19,4 +19,4 @@ class TaskModel(models.Model):
     update_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"PK {self.pk} OWNER {self.owner.username} TITLE {self.title} STATUS {self.status.name}"
+        return f"PK {self.pk} TITLE {self.title} OWNER {self.owner.username} STATUS {self.status.name}"
