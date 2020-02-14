@@ -2,10 +2,10 @@
 {% load staticfiles %}
 
 {% block content %}
-
-    <div class="col box">
-
-    </div>
+    {##}
+    {#    <div class="col box">#}
+    {##}
+    {#    </div>#}
 
     <div class="col box">
 
@@ -25,114 +25,138 @@
             <input type="submit" value="create task">
         </form>
 
-{# ------------------- start task list ----------------- #}
-        <div class="row">
-            {% for task in tasks %}
-                {% ifchanged task.status.pk %}
-                    {% if forloop.first %}
-                        <div class="col">
-                            {% else %}
-                        </div>
-                        <div class="col">
-                    {% endif %}
-                    {{ task.status.name }}<br>
-                {% endifchanged %}
-
-            {# --------------------------- task card --------------------------------#}
-
-            <div class="my-1 mb-3 brd-b pb-2">
-                <div class="row position-absolute col-12">
-                    <div class="btn btn-outline-primary btn-sm col-auto ml-0">
-                        {{ task.pk }}
-                    </div>
-                    <form action="{% url 'task_control:delete' task.pk %}" method="post"
-                          class="col-auto p-0 ml-auto mr-0">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-primary btn-sm">X</button>
-                    </form>
-                </div>
-
-
-                <div class="row col-12 position-absolute" style="margin-top: 35px">
-                    <form action="{% url 'task_control:update' task.pk %}" method="post"
-                          class="col-auto p-0 ml-0">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-primary btn-sm">&lt</button>
-                    </form>
-                    <form action="{% url 'task_control:update' task.pk %}" method="post"
-                          class="col-auto p-0 ml-auto mr-0">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-primary btn-sm">&gt</button>
-                    </form>
-                </div>
-
-
-                <div class="ml-4 pl-2">
-                    Title: {{ task.title }}<br>
-                    Worker: {{ task.worker }}<br>
-                    Owner: {{ task.owner }}
-                </div>
-
-            </div>
-
-            {# ------------------------ end task card ------------------------------------ #}
-
-            {% if forloop.last %}
-                </div>
-            {% endif %}
-            {% endfor %}
-        </div>
-{# --------- end task list -------------- #}
-
+        {# ------------------- start task list ----------------- #}
 
         {#        <div class="row">#}
+        {#            {% for task in tasks %}#}
+        {#                {% ifchanged task.status.order %}#}
+        {#                    {% cycle status_list %}#}
+        {#                    {{ status.name }}#}
+        {#                    {% if forloop.first %}#}
+        {#                        <div class="col">#}
+        {#                            {% else %}#}
+        {#                        </div>#}
+        {#                        <div class="col">#}
+        {#                    {% endif %}#}
+        {#                    {{ task.status.name }}<br>#}
+        {#                {% endifchanged %}#}
         {##}
+        {# --------------------------- task card --------------------------------#}
         {##}
-        {#            {% for status in status_list %}#}
-        {#                <div class="col brd">#}
-        {#                    <p class="brd-b">{{ status.name }}</p>#}
-        {#                    {% for task in tasks %}#}
-        {#                        {% if task.status.pk == status.pk %}#}
-        {##}
-        {##}
-        {#                            <div class="my-1 brd-b pb-2">#}
-        {#                                <div class="row position-absolute col-12 brd">#}
-        {#                                    <div class="btn btn-outline-primary btn-sm col-auto ml-0">#}
-        {#                                        {{ task.pk }}#}
-        {#                                    </div>#}
-        {#                                    <form action="{% url 'task_control:delete' task.pk %}" method="post"#}
-        {#                                          class="col-auto p-0 ml-auto mr-0">#}
-        {#                                        {% csrf_token %}#}
-        {#                                        <button type="submit" class="btn btn-outline-primary btn-sm">X</button>#}
-        {#                                    </form>#}
-        {#                                </div>#}
-        {##}
-        {#                                <div class="ml-4 pl-2">#}
-        {#                                    Title: {{ task.title }}<br>#}
-        {#                                    Worker: {{ task.worker }}<br>#}
-        {#                                    Owner: {{ task.owner }}#}
-        {#                                </div>#}
-        {##}
-        {#                                <div class="row col-12 position-absolute  brd">#}
-        {#                                    <form action="{% url 'task_control:update' task.pk %}" method="post"#}
-        {#                                          class="col-auto p-0 ml-0">#}
-        {#                                        {% csrf_token %}#}
-        {#                                        <button type="submit" class="btn btn-outline-primary btn-sm">&lt</button>#}
-        {#                                    </form>#}
-        {#                                    <form action="{% url 'task_control:update' task.pk %}" method="post"#}
-        {#                                          class="col-auto p-0 ml-auto mr-0">#}
-        {#                                        {% csrf_token %}#}
-        {#                                        <button type="submit" class="btn btn-outline-primary btn-sm">&gt</button>#}
-        {#                                    </form>#}
-        {#                                </div>#}
-        {#                            </div>#}
-        {##}
-        {##}
-        {#                        {% endif %}#}
-        {#                    {% endfor %}#}
+        {#            <div class="my-1 mb-3 brd-b pb-2">#}
+        {#                <div class="row position-absolute col-12">#}
+        {#                    <div class="btn btn-outline-primary btn-sm col-auto ml-0">#}
+        {#                        {{ task.pk }}#}
+        {#                    </div>#}
+        {#                    <form action="{% url 'task_control:delete' task.pk %}" method="post"#}
+        {#                          class="col-auto p-0 ml-auto mr-0">#}
+        {#                        {% csrf_token %}#}
+        {#                        <button type="submit" class="btn btn-outline-primary btn-sm">X</button>#}
+        {#                    </form>#}
         {#                </div>#}
+        {##}
+        {##}
+        {#                <div class="row col-12 position-absolute" style="margin-top: 35px">#}
+        {#                    <form action="{% url 'task_control:update' task.pk %}" method="post"#}
+        {#                          class="col-auto p-0 ml-0">#}
+        {#                        {% csrf_token %}#}
+        {#                        <button type="submit" class="btn btn-outline-primary btn-sm">&lt</button>#}
+        {#                    </form>#}
+        {#                    <form action="{% url 'task_control:update' task.pk %}" method="post"#}
+        {#                          class="col-auto p-0 ml-auto mr-0">#}
+        {#                        {% csrf_token %}#}
+        {#                        <button type="submit" class="btn btn-outline-primary btn-sm">&gt</button>#}
+        {#                    </form>#}
+        {#                </div>#}
+        {##}
+        {##}
+        {#                <div class="ml-4 pl-2">#}
+        {#                    Title: {{ task.title }}<br>#}
+        {#                    Worker: {{ task.worker }}<br>#}
+        {#                    Owner: {{ task.owner }}#}
+        {#                </div>#}
+        {##}
+        {#            </div>#}
+        {##}
+        {# ------------------------ end task card ------------------------------------ #}
+        {##}
+        {#            {% if forloop.last %}#}
+        {#                </div>#}
+        {#            {% endif %}#}
         {#            {% endfor %}#}
         {#        </div>#}
+        {# --------- end task list -------------- #}
+
+
+        <div class="row">
+
+
+            {% for status in status_list %}
+                <div class="col">
+                    <p class="brd-b">{{ status.name }}</p>
+
+                    {# ------------ task card ------------------- #}
+                    {% for task in tasks %}
+                        {% if task.status.pk == status.pk %}
+
+                            <div class="my-1 brd-b mb-3 pb-2">
+                                <div class="row position-absolute col-12">
+                                    <div class="btn btn-outline-primary btn-sm col-auto ml-0">
+                                        {{ task.pk }}
+                                    </div>
+                                    <form action="{% url 'task_control:delete' task.pk %}" method="post"
+                                          class="col-auto p-0 ml-auto mr-0">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-primary btn-sm">X</button>
+                                    </form>
+                                </div>
+
+                                <div class="row col-12 position-absolute" style="margin-top: 35px">
+                                    <form action="{% url 'task_control:update' task.pk %}" method="post"
+                                          class="col-auto p-0 ml-0">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value={{ status.pk|add:-1 }}>
+                                        <button type="submit"
+                                                class="btn btn-outline-primary btn-sm"
+                                                {% if forloop.parentloop.first %}
+                                                disabled
+                                                {% endif %}>
+                                            &lt
+                                        </button>
+                                    </form>
+                                    <form action="{% url 'task_control:update' task.pk %}" method="post"
+                                          class="col-auto p-0 ml-auto mr-0">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="status" value={{ status.pk|add:1 }}>
+                                        <button type="submit"
+                                                class="btn btn-outline-primary btn-sm"
+                                                {% if forloop.parentloop.last %}
+                                                disabled
+                                                {% endif %}
+                                                >
+                                            &gt
+                                        </button>
+                                    </form>
+                                </div>
+
+
+                                <div class="ml-4 pl-2">
+                                    Title: {{ task.title }}<br>
+                                    Worker: {{ task.worker }}<br>
+                                    Owner: {{ task.owner }}
+
+                                </div>
+
+                            </div>
+
+
+                        {% endif %}
+                    {% endfor %}
+
+                    {# ------------ end task kard ----------------#}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock content %}

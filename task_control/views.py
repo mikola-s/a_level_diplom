@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
 
-from task_control.forms import CreateTaskForm
+from task_control.forms import CreateTaskForm, UpdateTaskForm, UpdateTaskStatusForm
 from task_control.models import TaskModel, Status
 
 
@@ -12,19 +12,6 @@ class TaskList(ListView):
     queryset = model.objects.all()
     ordering = 'status__order'
     context_object_name = 'tasks'
-
-    # def dispatch(self, request, *args, **kwargs):
-    #     return super().dispatch(request, *args, **kwargs)
-    #
-    # def post(self, request, *args, **kwargs):
-    #     form = self.get_form()
-    #     x=1
-    #
-    # def form_valid(self, form):
-    #     return super().form_valid(form)
-    #
-    # def form_invalid(self, form):
-    #     return super().form_invalid(form)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
@@ -52,9 +39,11 @@ class CreateTask(CreateView):
         return super().form_invalid(form)
 
 
-class UpdateTask(UpdateView):
+class UpdateTaskStatus(UpdateView):
     template_name = 'task_control/update.html'
     success_url = '/'
+    fields = ['status', ]
+    model = TaskModel
 
 
 class DeleteTask(DeleteView):
