@@ -17,8 +17,6 @@ class UpdateTaskForm(forms.ModelForm):
         model = TaskModel
         fields = ('title', 'worker', 'status')
 
-    # title = forms.CharField(max_length=50, required=False)
-
 
 class UpdateTaskStatusForm(forms.ModelForm):
     class Meta:

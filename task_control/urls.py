@@ -5,7 +5,8 @@ app_name = 'task_control'
 
 urlpatterns = [
     path('', views.TaskList.as_view(), name='index'),
-    path('create/', views.CreateTask.as_view(), name='create'),
-    path('update/<int:pk>', views.UpdateTaskStatus.as_view(), name='update'),
-    path('delete/<int:pk>', views.DeleteTask.as_view(), name='delete'),
+    path('create/task/', views.CreateTask.as_view(), name='create'),
+    path('update/task/<int:pk>/status', views.UpdateTaskStatus.as_view(), name='update_status'),
+    path('update/task/<int:pk>/title', views.UpdateTaskTitle.as_view(), name='update_title'),
+    path('delete/task/<int:pk>', views.DeleteTask.as_view(), name='delete'),
 ]

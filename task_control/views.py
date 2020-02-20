@@ -46,6 +46,13 @@ class UpdateTaskStatus(UpdateView):
     model = TaskModel
 
 
+class UpdateTaskTitle(UpdateView):
+    template_name = 'task_control/update.html'
+    success_url = '/'
+    fields = ['title', ]
+    model = TaskModel
+
+
 class DeleteTask(DeleteView):
     template_name = 'task_control/delete.html'
     success_url = '/'

@@ -7,7 +7,7 @@ class Status(models.Model):
     name = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"({self.order}) {self.name} "
+        return f"({self.order}) {self.name}"
 
 
 class TaskModel(models.Model):

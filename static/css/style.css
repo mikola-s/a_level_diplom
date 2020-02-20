@@ -123,3 +123,12 @@ em {
     border-bottom: 3px solid skyblue;
 }
 
+.zindex {
+    z-index: 1000;
+}
+
+.label {
+    font-size: 14px;
+    color: gray;
+}
+
