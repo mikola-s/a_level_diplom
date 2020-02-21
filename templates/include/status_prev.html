@@ -1,0 +1,6 @@
+<form action="{% url 'task_control:update_status' task.pk %}" method="post"
+      class="col-auto p-0 ml-0">
+    {% csrf_token %}
+    <input type="hidden" name="status" value={{ status.pk|add:-1 }}>
+    <button type="submit" class="btn btn-outline-primary btn-sm">&lt</button>
+</form>

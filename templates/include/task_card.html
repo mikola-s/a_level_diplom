@@ -1,63 +1,80 @@
 {% for task in tasks %}
     {% if task.status.pk == status.pk %}
-        {#        номер задачи и кнопка удаления #}
+
+        {#номер задачи и кнопка удаления #}
         <div class="my-1 brd-b mb-3 pb-2 brd">
             <div class="row position-absolute col-12">
                 <div class="btn btn-outline-primary btn-sm col-auto ml-0">
                     {{ task.pk }}
                 </div>
-                <form action="{% url 'task_control:delete' task.pk %}" method="post"
-                      class="col-auto p-0 ml-auto mr-0">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-primary btn-sm">X</button>
-                </form>
+                {% if user.is_superuser %}
+                    <form action="{% url 'task_control:delete' task.pk %}" method="post"
+                          class="col-auto p-0 ml-auto mr-0">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-primary btn-sm">X</button>
+                    </form>
+                {% endif %}
             </div>
-            {#          измение статуса задачи#}
+
+            {# измение статуса задачи #}
             <div class="row position-absolute col-12" style="margin-top: 35px">
-                {#            <div class="row col-12 position-absolute brd" style="margin-top: 35px">#}
-                <form action="{% url 'task_control:update_status' task.pk %}" method="post"
-                      class="col-auto p-0 ml-0">
-                    {% csrf_token %}
-                    <input type="hidden" name="status" value={{ status.pk|add:-1 }}>
-                    <button type="submit"
-                            class="btn btn-outline-primary btn-sm"
-                            {% if forloop.parentloop.first %}
-                            disabled
-                            {% endif %}>
-                        &lt
-                    </button>
-                </form>
-                <form action="{% url 'task_control:update_status' task.pk %}" method="post"
-                      class="col-auto p-0 ml-auto mr-0">
-                    {% csrf_token %}
-                    <input type="hidden" name="status" value={{ status.pk|add:1 }}>
-                    <button type="submit"
-                            class="btn btn-outline-primary btn-sm"
-                            {% if forloop.parentloop.last %}
-                            disabled
-                            {% endif %}
-                    >
-                        &gt
-                    </button>
-                </form>
+                {# стрелка влево #}
+                {% if task.worker.pk == user.pk and status in status_list|slice:"1:4" %}
+                    {% include 'include/status_prev.html' %}
+                {% elif user.is_superuser and status in status_list|slice:"4:" %}
+                    {% include 'include/status_prev.html' %}
+                {% endif %}
+
+                {# конец стрелки влево #}
+
+                {# стрелка вправо #}
+                {% if task.worker.pk == user.pk and status in status_list|slice:":3" %}
+                    {% include 'include/status_next.html' %}
+                {% elif user.is_superuser and status in status_list|slice:"3:4" %}
+                    {% include 'include/status_next.html' %}
+                {% endif %}
             </div>
+            {# конец стрелки вправо #}
 
-
+            {#  task title#}
             <div class="mx-auto pl-1 col-9 brd">
-                {% if user.pk == task.owner.pk %}
+                {% if user.pk == task.owner.pk or user.is_superuser %}
                     <form action="{% url 'task_control:update_title' task.pk %}" method="post"
                           class="row">
                         {% csrf_token %}
-                        <label class="col-9 mb-0 label" for="title_{{ task.pk }}" >Title: </label>
-                        <input class="col-9 px-1 mx-auto" type="text" name="title" id="title_{{ task.pk }}" value="{{ task.title }}">
+                        <label class="col-9 mb-0 label" for="title_{{ task.pk }}">Title: </label>
+                        <input class="col-9 px-1 mx-auto" type="text" name="title" id="title_{{ task.pk }}"
+                               value="{{ task.title }}">
 
                         <button type="submit" class="btn btn-outline-primary btn-sm">E</button>
                     </form>
                 {% else %}
-                    <snap class="label">Title: </snap>{{ task.title }}<br>
+                    <snap class="label">Title:</snap>{{ task.title }}<br>
                 {% endif %}
-                    <snap class="label">Worker: </snap>{{ task.worker }}<br>
-                    <snap class="label">Owner: </snap>{{ task.owner }}
+                {#  end task title#}
+
+                {# task worker #}
+                {% if  user.is_superuser %}
+                    <form action="">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button">Button</button>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect03">
+                                <option selected>Choose...</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </form>
+                {% else %}
+                    <snap class="label">Worker:</snap>
+                    {{ task.worker }}<br>
+                {% endif %}
+                {# end task worker #}
+                <snap class="label">Owner:</snap>
+                {{ task.owner }}
 
             </div>
 
@@ -65,4 +82,4 @@
 
 
     {% endif %}
-{% endfor %}
+{% endfor task %}

@@ -10,7 +10,7 @@ class TaskList(ListView):
     template_name = 'task_control/index.html'
     model = TaskModel
     queryset = model.objects.all()
-    ordering = 'status__order'
+    ordering = ['status__order', '-update_time']
     context_object_name = 'tasks'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -54,5 +54,6 @@ class UpdateTaskTitle(UpdateView):
 
 
 class DeleteTask(DeleteView):
+    model = TaskModel
     template_name = 'task_control/delete.html'
     success_url = '/'
