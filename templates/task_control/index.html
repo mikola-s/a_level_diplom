@@ -19,18 +19,43 @@
 
         {% include 'page_item/messages.html' %}
 
+{#    new task #}
         <form method="post" action="{% url 'task_control:create' %}">
             {% csrf_token %}
-            {{ create_form }}
-            <input type="submit" value="create task">
+            <div class="input-group mb-3 col-5 px-0">
+                {% if not user.is_superuser %}
+                <div class="input-group-prepend">
+                    <div class="input-group-text" title="I will do">
+                        <input type="checkbox"
+                               name="worker"
+                               id="id_worker"
+                               aria-label="Checkbox for following text input">
+                    </div>
+                </div>
+                {% endif %}
+                <input type="text"
+                       class="form-control"
+                       required
+                       placeholder="Type new task title"
+                       name="title"
+                       title="Task title"
+                       maxlength="50"
+                       id="id_title"
+                       aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">New</button>
+                </div>
+            </div>
         </form>
+{#    end new task #}
+
 
         <div class="row">
             {% for status in status_list %}
-                <div class="col">
+                <div class="col ml-1 px-0 status_col">
                     <p class="brd-b">{{ status.name }}</p>
 
-                {% include 'include/task_card.html' %}
+                    {% include 'include/task_card.html' %}
 
                 </div>
             {% endfor %}

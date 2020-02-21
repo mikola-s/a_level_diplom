@@ -1,0 +1,30 @@
+<div class="mx-auto px-0 col-9">
+    {% if user.pk == task.owner.pk or user.is_superuser %}
+        <form action="{% url 'task_control:update_title' task.pk %}" method="post">
+            {% csrf_token %}
+            <div class="input-group input-group-sm mb-1">
+                <input type="text" class="form-control" required
+                       title="Task title"
+                       aria-describedby="basic-addon2"
+                       name="title"
+                       id="title_{{ task.pk }}"
+                       value="{{ task.title }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">ok</button>
+                </div>
+            </div>
+        </form>
+
+    {% else %}
+
+        <div class="input-group input-group-sm mb-1">
+            <input type="text" class="form-control" required
+                   title="Task title"
+                   aria-describedby="basic-addon2"
+                   name="title"
+                   id="title_{{ task.pk }}"
+                   value="{{ task.title }}"
+                   disabled>
+        </div>
+
+    {% endif %}

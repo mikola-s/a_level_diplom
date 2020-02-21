@@ -1,23 +1,27 @@
 {% for task in tasks %}
     {% if task.status.pk == status.pk %}
 
-        {#номер задачи и кнопка удаления #}
-        <div class="my-1 brd-b mb-3 pb-2 brd">
-            <div class="row position-absolute col-12">
-                <div class="btn btn-outline-primary btn-sm col-auto ml-0">
+
+        <div class="my-1 brd-b mb-3 pb-2">
+            {#номер задачи и кнопка удаления #}
+            <div class="row px-0">
+                <div class="btn btn-outline-primary btn-sm col-auto ml-0 px-0 text-center task_id" title="Task ID">
                     {{ task.pk }}
                 </div>
+
+                {% include 'include/task_title.html' %}
+
                 {% if user.is_superuser %}
                     <form action="{% url 'task_control:delete' task.pk %}" method="post"
-                          class="col-auto p-0 ml-auto mr-0">
+                          class="col-auto p-0 ml-auto" title="Delete task">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-primary btn-sm">X</button>
+                        <button type="submit" class="btn btn-outline-warning btn-sm">X</button>
                     </form>
                 {% endif %}
             </div>
 
             {# измение статуса задачи #}
-            <div class="row position-absolute col-12" style="margin-top: 35px">
+            <div class="row position-absolute col-12 pl-0 pr-1" style="margin-top: 35px">
                 {# стрелка влево #}
                 {% if task.worker.pk == user.pk and status in status_list|slice:"1:4" %}
                     {% include 'include/status_prev.html' %}
@@ -37,46 +41,35 @@
             {# конец стрелки вправо #}
 
             {#  task title#}
-            <div class="mx-auto pl-1 col-9 brd">
-                {% if user.pk == task.owner.pk or user.is_superuser %}
-                    <form action="{% url 'task_control:update_title' task.pk %}" method="post"
-                          class="row">
-                        {% csrf_token %}
-                        <label class="col-9 mb-0 label" for="title_{{ task.pk }}">Title: </label>
-                        <input class="col-9 px-1 mx-auto" type="text" name="title" id="title_{{ task.pk }}"
-                               value="{{ task.title }}">
 
-                        <button type="submit" class="btn btn-outline-primary btn-sm">E</button>
-                    </form>
-                {% else %}
-                    <snap class="label">Title:</snap>{{ task.title }}<br>
-                {% endif %}
-                {#  end task title#}
+            {#  end task title#}
 
-                {# task worker #}
-                {% if  user.is_superuser %}
-                    <form action="">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary" type="button">Button</button>
-                            </div>
-                            <select class="custom-select" id="inputGroupSelect03">
-                                <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+            {# task worker #}
+            <snap class="label">Worker</snap>
+            {% if  user.is_superuser %}
+                <form action="{% url 'task_control:update_worker' task.pk %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group input-group-sm">
+                        <select class="custom-select" name="worker" id="inputGroupSelect04">
+                            <option value="">Choose worker</option>
+                            {% for worker in worker_list %}
+                                <option {% if task.worker.pk == worker.pk %}selected{% endif %}
+                                        value="{{ worker.pk }}">{{ worker.username }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-outline-secondary" type="submit">ok</button>
                         </div>
-                    </form>
-                {% else %}
-                    <snap class="label">Worker:</snap>
-                    {{ task.worker }}<br>
-                {% endif %}
-                {# end task worker #}
-                <snap class="label">Owner:</snap>
-                {{ task.owner }}
+                    </div>
+                </form>
+            {% else %}
+                {{ task.worker }}<br>
+            {% endif %}
+            {# end task worker #}
+            <snap class="label">Maker</snap>
+            {{ task.owner }}
 
-            </div>
+        </div>
 
         </div>
 

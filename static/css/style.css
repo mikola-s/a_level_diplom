@@ -1,5 +1,5 @@
 body {
-    background-color: lightgrey;
+    background-color: lightgray;
 }
 
 
@@ -132,3 +132,11 @@ em {
     color: gray;
 }
 
+.task_id {
+    width: 25px !important;
+}
+
+.status_col {
+    background-color: #fffcf6;
+    /*border: 1px solid gray;*/
+}

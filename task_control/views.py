@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormMixin
@@ -15,9 +16,12 @@ class TaskList(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
+        worker_list = User.objects.exclude(id=1).filter(is_staff=False)
         context.update({'create_form': CreateTaskForm,
                         'delete_form': DeleteTask,
-                        'status_list': Status.objects.all()})
+                        'status_list': Status.objects.all(),
+                        'worker_list': worker_list,
+                        })
         return context
 
 
@@ -51,6 +55,16 @@ class UpdateTaskTitle(UpdateView):
     success_url = '/'
     fields = ['title', ]
     model = TaskModel
+
+
+class UpdateTaskWorker(UpdateView):
+    template_name = 'task_control/update.html'
+    success_url = '/'
+    fields = ['worker', ]
+    model = TaskModel
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 class DeleteTask(DeleteView):
