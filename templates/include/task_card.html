@@ -1,23 +1,43 @@
 {% for task in tasks %}
     {% if task.status.pk == status.pk %}
 
-
         <div class="my-1 brd-b mb-3 pb-2">
             {#номер задачи и кнопка удаления #}
-            <div class="row px-0">
-                <div class="btn btn-outline-primary btn-sm col-auto ml-0 px-0 text-center task_id" title="Task ID">
-                    {{ task.pk }}
-                </div>
+            <div class="row px-0 mx-0">
 
-                {% include 'include/task_title.html' %}
 
-                {% if user.is_superuser %}
-                    <form action="{% url 'task_control:delete' task.pk %}" method="post"
-                          class="col-auto p-0 ml-auto" title="Delete task">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-warning btn-sm">X</button>
-                    </form>
-                {% endif %}
+                    {% if user.pk == task.owner.pk or user.is_superuser %}
+                        <form action="{% url 'task_control:update_title' task.pk %}" method="post">
+                            {% csrf_token %}
+                            <div class="input-group input-group-sm mb-1">
+
+
+                                {% include 'include/task_pk.html' %}
+                                {% include 'include/task_title_input.html' %}
+
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">ok</button>
+                                </div>
+                                {% if user.is_superuser %}
+
+                                    {% include 'include/task_delete.html' %}
+
+                                {% endif %}
+
+                            </div>
+                        </form>
+
+                    {% else %}
+
+                        <div class="input-group input-group-sm mb-1">
+
+                            {% include 'include/task_pk.html' %}
+                            {% include 'include/task_title_input.html' %}
+
+                        </div>
+
+                    {% endif %}
+
             </div>
 
             {# измение статуса задачи #}
@@ -40,10 +60,6 @@
             </div>
             {# конец стрелки вправо #}
 
-            {#  task title#}
-
-            {#  end task title#}
-
             {# task worker #}
             <snap class="label">Worker</snap>
             {% if  user.is_superuser %}
@@ -51,7 +67,7 @@
                     {% csrf_token %}
                     <div class="input-group input-group-sm">
                         <select class="custom-select" name="worker" id="inputGroupSelect04">
-                            <option value="">Choose worker</option>
+                            <option disabled selected>Choose worker</option>
                             {% for worker in worker_list %}
                                 <option {% if task.worker.pk == worker.pk %}selected{% endif %}
                                         value="{{ worker.pk }}">{{ worker.username }}</option>
@@ -71,7 +87,7 @@
 
         </div>
 
-        </div>
+
 
 
     {% endif %}

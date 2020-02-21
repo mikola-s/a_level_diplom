@@ -1,0 +1,12 @@
+<input type="text"
+       class="form-control"
+       required
+       title="Task title"
+       aria-describedby="basic-addon2"
+       name="title"
+       id="title_{{ task.pk }}"
+       value="{{ task.title }}"
+        {% if not user.is_superuser and user.pk != task.owner.pk %}
+            disabled
+        {% endif %}
+>

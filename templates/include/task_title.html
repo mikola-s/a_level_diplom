@@ -1,4 +1,4 @@
-<div class="mx-auto px-0 col-9">
+<div class="col-10 px-0">
     {% if user.pk == task.owner.pk or user.is_superuser %}
         <form action="{% url 'task_control:update_title' task.pk %}" method="post">
             {% csrf_token %}
@@ -28,3 +28,4 @@
         </div>
 
     {% endif %}
+</div>
