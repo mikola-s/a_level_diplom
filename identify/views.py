@@ -1,12 +1,12 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib import messages
 
 
-class UserRegister(CreateView):
+class UserRegister(SuccessMessageMixin, CreateView):
     """ create user form page '/user_create/' """
 
     template_name = 'identify/create.html'
@@ -23,15 +23,18 @@ class UserRegister(CreateView):
         return form_data
 
 
-class UserLogin(LoginView):
+class UserLogin(SuccessMessageMixin, LoginView):
     """ login user form page '/user_login/' """
 
     template_name = 'identify/login.html'
     success_url = '/'
     success_message = '%(username)s login successfully'
 
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
 
-class UserLogout(LogoutView):
+
+class UserLogout(SuccessMessageMixin, LogoutView):
     """ user logout """
 
     template_name = 'identify/logout.html'

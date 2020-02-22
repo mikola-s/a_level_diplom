@@ -2,12 +2,11 @@
 {% load staticfiles %}
 
 {% block content %}
-    {##}
-    {#    <div class="col box">#}
-    {##}
-    {#    </div>#}
+
 
     <div class="col box">
+
+    {% include 'page_item/messages.html' %}
 
         {% if not user.is_authenticated %}
             <div class="alert alert-danger text-center" role="alert">
@@ -17,7 +16,7 @@
             </div>
         {% endif %}
 
-        {% include 'page_item/messages.html' %}
+
 
 {#    new task #}
         <form method="post" action="{% url 'task_control:create' %}">
@@ -52,7 +51,7 @@
 
         <div class="row">
             {% for status in status_list %}
-                <div class="col box ml-1 px-1 status_col">
+                <div class="col box ml-1 px-1 status_col pt-3">
                     <p class="brd-b">{{ status.name }}</p>
 
                     {% include 'include/task_card.html' %}

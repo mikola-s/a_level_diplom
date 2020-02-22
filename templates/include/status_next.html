@@ -1,6 +1,7 @@
-<form action="{% url 'task_control:update_status' task.pk %}" method="post"
-      class="col-auto p-0 ml-auto mr-0">
-    {% csrf_token %}
-    <input type="hidden" name="status" value={{ status.pk|add:1 }}>
-    <button type="submit" class="btn btn-outline-primary btn-sm">&gt</button>
-</form>
+<div class="col-1 px-0 mx-0 ml-1">
+    <form action="{% url 'task_control:update_status' task.pk %}" method="post" class="status_change">
+        {% csrf_token %}
+        <input type="hidden" name="status" value={{ status.pk|add:1 }}>
+        <button type="submit" class="btn btn-outline-primary btn-sm px-1 status_change" title="Next stage">&gt</button>
+    </form>
+</div>

@@ -140,3 +140,7 @@ em {
     background-color: #fffcf6;
     /*border: 1px solid gray;*/
 }
+
+.status_change {
+    height: 98%;
+}
