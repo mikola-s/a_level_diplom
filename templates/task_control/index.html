@@ -4,18 +4,9 @@
 {% block content %}
 
 
-    <div class="col box">
+    <div class="col box" style="background-color: lightgray">
 
     {% include 'page_item/messages.html' %}
-
-        {% if not user.is_authenticated %}
-            <div class="alert alert-danger text-center" role="alert">
-                <a href="{% url 'identify:login' %}" class="alert-link">login</a>
-                or
-                <a href="{% url 'identify:register' %}" class="alert-link">register</a>!
-            </div>
-        {% endif %}
-
 
 
 {#    new task #}
@@ -51,7 +42,7 @@
 
         <div class="row">
             {% for status in status_list %}
-                <div class="col box ml-1 px-1 status_col pt-3">
+                <div class="col box ml-1 px-3 status_col pt-3">
                     <p class="brd-b">{{ status.name }}</p>
 
                     {% include 'include/task_card.html' %}

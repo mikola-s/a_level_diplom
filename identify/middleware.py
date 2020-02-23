@@ -1,14 +1,21 @@
 from django.shortcuts import redirect
+from django.utils.deprecation import MiddlewareMixin
 
 
-class CheckLoginMiddleware:
+class CheckLoginMiddleware(MiddlewareMixin):
 
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
+    @staticmethod
+    def process_request(request):
         if not request.user.is_authenticated and \
                 request.path not in ('/identify/login/', '/identify/register/'):
             return redirect('identify:login')
-        response = self.get_response(request)
-        return response
+
+
+class SessionLifetimeMiddleware(MiddlewareMixin):
+
+    @staticmethod
+    def process_request(request):
+        if request.user.is_superuser:
+            request.session.set_expiry(None)
+        else:
+            request.session.set_expiry(5*60)

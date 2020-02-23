@@ -1,5 +1,5 @@
 body {
-    background-color: lightgray;
+    background-color: gray;
 }
 
 
@@ -138,9 +138,11 @@ em {
 
 .status_col {
     background-color: #fffcf6;
+    border-radius: 5px;
     /*border: 1px solid gray;*/
 }
 
 .status_change {
     height: 98%;
 }
+

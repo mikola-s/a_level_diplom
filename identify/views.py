@@ -30,9 +30,6 @@ class UserLogin(SuccessMessageMixin, LoginView):
     success_url = '/'
     success_message = '%(username)s login successfully'
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
-
 
 class UserLogout(SuccessMessageMixin, LogoutView):
     """ user logout """

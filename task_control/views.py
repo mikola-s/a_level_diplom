@@ -15,14 +15,15 @@ class TaskList(SuccessMessageMixin, ListView):
     queryset = model.objects.all()
     ordering = ['status__order', '-update_time']
     context_object_name = 'tasks'
-    success_message = 'Create user successful'
 
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    def set_session_lifetime(self):
+        if not self.request.user.is_superuser:
+            self.request.session.set_expiry(5)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
         worker_list = User.objects.exclude(id=1).filter(is_staff=False)
+        self.set_session_lifetime()
         context.update({'create_form': CreateTaskForm,
                         'delete_form': DeleteTask,
                         'status_list': Status.objects.all(),
@@ -36,7 +37,7 @@ class CreateTask(SuccessMessageMixin, CreateView):
     model = TaskModel
     template_name = 'task_control/create.html'
     success_url = '/'
-    success_message = 'Create user %(title)s successful'
+    success_message = 'Create task %(title)s successful'
 
     def form_valid(self, form):
         form_patch = form.save(commit=False)
@@ -55,7 +56,11 @@ class UpdateTaskStatus(SuccessMessageMixin, UpdateView):
     success_url = '/'
     fields = ['status', ]
     model = TaskModel
-    success_message = 'task status'
+
+    def get_success_message(self, cleaned_data):
+        task = self.object
+        self.success_message = f'Change task ({task.pk}) to status "{task.status.name}" success'
+        return super().get_success_message(cleaned_data)
 
 
 class UpdateTaskTitle(SuccessMessageMixin, UpdateView):
@@ -63,7 +68,11 @@ class UpdateTaskTitle(SuccessMessageMixin, UpdateView):
     success_url = '/'
     fields = ['title', ]
     model = TaskModel
-    success_message = 'task title'
+
+    def get_success_message(self, cleaned_data):
+        task = self.object
+        self.success_message = f'Change task ({task.pk}) title to "%(title)s" success'
+        return super().get_success_message(cleaned_data)
 
 
 class UpdateTaskWorker(SuccessMessageMixin, UpdateView):
@@ -71,11 +80,24 @@ class UpdateTaskWorker(SuccessMessageMixin, UpdateView):
     success_url = '/'
     fields = ['worker', ]
     model = TaskModel
-    success_message = 'task worker'
+
+    def get_success_message(self, cleaned_data):
+        task = self.object
+        self.success_message = f'Task ({task.pk}) worker -- %(worker)s'
+        return super().get_success_message(cleaned_data)
 
 
 class DeleteTask(SuccessMessageMixin, DeleteView):
     model = TaskModel
     template_name = 'task_control/delete.html'
     success_url = '/'
-    success_message = 'task delete'
+
+    def dispatch(self, request, *args, **kwargs):
+        task = self.kwargs['pk']
+        messages.add_message(self.request, messages.SUCCESS, f'Task ({task}) delete success')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_message(self, cleaned_data):
+        task = self.object
+        self.success_message = f'Task ({task.pk}) delete success'
+        return super().get_success_message(cleaned_data)

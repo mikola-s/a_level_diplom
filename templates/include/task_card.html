@@ -7,24 +7,30 @@
             <div class="row px-0 mx-0">
 
                 {% if user.pk == task.owner.pk or user.is_superuser %}
-                    <form action="{% url 'task_control:update_title' task.pk %}" method="post">
-                        {% csrf_token %}
-                        <div class="input-group input-group-sm mb-1">
+                    <div>
+                        <form action="{% url 'task_control:update_title' task.pk %}" method="post">
+                            {% csrf_token %}
 
-                            {% include 'include/task_pk.html' %}
-                            {% include 'include/task_title_input.html' %}
+                            <div class="input-group input-group-sm mb-1">
+                                {% include 'include/task_pk.html' %}
+                                {% include 'include/task_title_input.html' %}
 
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="submit">ok</button>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">ok</button>
+                                </div>
+                                {% if user.is_superuser %}
+                                    <button type="submit" form="task_{{ task.pk }}_delete"
+                                            class="btn btn-outline-warning btn-sm ml-1">X
+                                    </button>
+                                {% endif %}
                             </div>
-                            {% if user.is_superuser %}
+                        </form>
 
-                                {% include 'include/task_delete.html' %}
+                        {% if user.is_superuser %}
+                            {% include 'include/task_delete.html' %}
+                        {% endif %}
+                    </div>
 
-                            {% endif %}
-
-                        </div>
-                    </form>
 
                 {% else %}
 
@@ -61,7 +67,7 @@
                                     </div>
                                 </div>
 
-                                <select class="custom-select" name="worker" id="inputGroupSelect04">
+                                <select class="custom-select" name="worker" required id="inputGroupSelect04">
                                     <option disabled selected>Choose worker</option>
                                     {% for worker in worker_list %}
                                         <option {% if task.worker.pk == worker.pk %}selected{% endif %}
@@ -71,7 +77,9 @@
 
 
                                 <div class="input-group-append">
-                                    <button class="btn btn-sm btn-outline-secondary" type="submit" title="confirm change worker">ok</button>
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit"
+                                            title="confirm change worker">ok
+                                    </button>
                                 </div>
                             </div>
                         </form>

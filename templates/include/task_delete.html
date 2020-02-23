@@ -1,6 +1,6 @@
-<div title="Delete task" class="ml-1">
-    <form action="{% url 'task_control:delete' task.pk %}" method="post">
+<div title="Delete task">
+    <form action="{% url 'task_control:delete' task.pk %}" method="post" id="task_{{ task.pk }}_delete">
         {% csrf_token %}
-        <button type="submit" class="btn btn-outline-warning btn-sm">X</button>
+{#        <button type="submit" class="btn btn-outline-warning btn-sm">X</button>#}
     </form>
 </div>
