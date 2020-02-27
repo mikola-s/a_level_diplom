@@ -3,15 +3,28 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView, get_object_or_404
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from task_control.forms import CreateTaskForm, UpdateTaskForm, UpdateTaskStatusForm
 from task_control.models import TaskModel, Status
-from task_control.serializers import TaskSerializer
+from task_control.serializers import TaskSerializer, FilterStatusSerializer
 
 
 class TaskApiView(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     queryset = TaskModel.objects.all()
+
+
+class FilterStatusApiView(APIView):
+    def get(self, request):
+        status_name = self.request.data.get('status')
+        tasks = TaskModel.objects.all()
+        if status_name is not None:
+            tasks = tasks.filter(status__name=status_name)
+        serializer = FilterStatusSerializer(tasks, many=True)
+        return Response({'tasks': serializer.data})
 
 
 class TaskList(SuccessMessageMixin, ListView):
@@ -21,14 +34,9 @@ class TaskList(SuccessMessageMixin, ListView):
     ordering = ['status__order', '-update_time']
     context_object_name = 'tasks'
 
-    def set_session_lifetime(self):
-        if not self.request.user.is_superuser:
-            self.request.session.set_expiry(5)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
         worker_list = User.objects.exclude(id=1).filter(is_staff=False)
-        self.set_session_lifetime()
         context.update({'create_form': CreateTaskForm,
                         'delete_form': DeleteTask,
                         'status_list': Status.objects.all(),

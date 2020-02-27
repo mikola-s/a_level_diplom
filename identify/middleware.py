@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
 import re
+from django.contrib.sessions.models import Session
 
 
 class CheckLoginMiddleware(MiddlewareMixin):
@@ -16,8 +17,7 @@ class CheckLoginMiddleware(MiddlewareMixin):
 
 class SessionLifetimeMiddleware(MiddlewareMixin):
 
-    @staticmethod
-    def process_request(request):
+    def process_request(self, request):
         if request.user.is_superuser:
             request.session.set_expiry(None)
         else:

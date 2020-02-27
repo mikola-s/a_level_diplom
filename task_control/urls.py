@@ -7,6 +7,7 @@ app_name = 'task_control'
 
 router = DefaultRouter()
 router.register(r'api', views.TaskApiView, basename='task')
+# router.register(r'api/status', views.FilterStatusApiView, basename='filter_status')
 
 urlpatterns = [
     path('', views.TaskList.as_view(), name='index'),
@@ -15,5 +16,6 @@ urlpatterns = [
     path('update/task/<int:pk>/title', views.UpdateTaskTitle.as_view(), name='update_title'),
     path('update/task/<int:pk>/worker', views.UpdateTaskWorker.as_view(), name='update_worker'),
     path('delete/task/<int:pk>', views.DeleteTask.as_view(), name='delete'),
+    path('api/status/', views.FilterStatusApiView.as_view(), name='filter_status'),
     path('', include(router.urls)),
 ]
