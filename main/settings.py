@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'identify.apps.IdentifyConfig',
     'task_control.apps.TaskControlConfig',
     'crispy_forms',

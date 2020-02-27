@@ -1,12 +1,17 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.contrib import messages
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.views.generic.edit import FormMixin
+from rest_framework import viewsets
 
 from task_control.forms import CreateTaskForm, UpdateTaskForm, UpdateTaskStatusForm
 from task_control.models import TaskModel, Status
-from django.contrib import messages
+from task_control.serializers import TaskSerializer
+
+
+class TaskApiView(viewsets.ModelViewSet):
+    serializer_class = TaskSerializer
+    queryset = TaskModel.objects.all()
 
 
 class TaskList(SuccessMessageMixin, ListView):

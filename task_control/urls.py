@@ -1,7 +1,12 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
 from . import views
 
 app_name = 'task_control'
+
+router = DefaultRouter()
+router.register(r'api', views.TaskApiView, basename='task')
 
 urlpatterns = [
     path('', views.TaskList.as_view(), name='index'),
@@ -10,4 +15,5 @@ urlpatterns = [
     path('update/task/<int:pk>/title', views.UpdateTaskTitle.as_view(), name='update_title'),
     path('update/task/<int:pk>/worker', views.UpdateTaskWorker.as_view(), name='update_worker'),
     path('delete/task/<int:pk>', views.DeleteTask.as_view(), name='delete'),
+    path('', include(router.urls)),
 ]
